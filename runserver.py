@@ -14,6 +14,10 @@ import json
 import os
 import threading
 import time
+import flask
+#-----------------------------------------------------------------------
+app = flask.Flask(__name__, template_folder='.')
+
 #-----------------------------------------------------------------------
 
 CDELAY = int(os.environ.get('CDELAY','0'))
@@ -296,6 +300,28 @@ ORDER BY p.profname ASC
         return [False, str(e)]
 
 #-----------------------------------------------------------------------
+@app.route('/', methods=['GET'])
+@app.route('/getoverviews', methods=['GET'])
+def get_overviews():
+    html_code = flask.render_template('getoverviews.html', 
+                                      dept=get_dept(),
+                                      coursenum=get_coursenum(),
+                                      area = get_area(),
+                                      title=get_title())
+    response = flask.make_response(html_code)
+    return response
+    
+#-----------------------------------------------------------------------
+@app.route('/getdetails', methods=['GET'])
+def get_details():
+    html_code = flask.render_template('getdetails.html', 
+                                      classid=get_classid())
+    response = flask.make_response(html_code)
+    return response
+#-----------------------------------------------------------------------
+
+
+#-----------------------------------------------------------------------
 def main():
 
     parser = argparse.ArgumentParser(
@@ -307,33 +333,52 @@ def main():
         help = 'the port at which the server is listening'
     )
 
-    try:
-        # Parses the stdin arguments
-        args = parser.parse_args()
-        server_sock = socket.socket()
-        print('Opened server socket')
-        if os.name != 'nt':
-            server_sock.setsockopt(
-                socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        server_sock.bind(('', args.port))
-        print('Bound server socket to port')
-        server_sock.listen()
-        print('Listening')
-
-        while True:
-            try:
-                sock, _ = server_sock.accept()
-                print('Accepted connection')
-                print('Opened socket')
-                client_handler_thread=ClientHandlerThread(sock)
-                client_handler_thread.start()
-
-            except Exception as ex:
-                print(ex, file=sys.stderr)
-
-    except Exception as e:
-        print(f"{sys.argv[0]}: {str(e)}", file=sys.stderr)
+    
+    if len(sys.argv) != 1:
+        print('Usage: ' + sys.argv[0] + ' port', file=sys.stderr)
         sys.exit(1)
+
+    try:
+        args = parser.parse_args()
+        port = int(args.port)
+    except Exception:
+        print('Port must be an integer.', file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        app.run(host='0.0.0.0', port=args.port, debug=True)
+    except Exception as ex:
+        print(ex, file=sys.stderr)
+        sys.exit(1)
+        
+
+    # try:
+    #     # Parses the stdin arguments
+    #     args = parser.parse_args()
+    #     server_sock = socket.socket()
+    #     print('Opened server socket')
+    #     if os.name != 'nt':
+    #         server_sock.setsockopt(
+    #             socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    #     server_sock.bind(('', args.port))
+    #     print('Bound server socket to port')
+    #     server_sock.listen()
+    #     print('Listening')
+
+    #     while True:
+    #         try:
+    #             sock, _ = server_sock.accept()
+    #             print('Accepted connection')
+    #             print('Opened socket')
+    #             client_handler_thread=ClientHandlerThread(sock)
+    #             client_handler_thread.start()
+
+    #         except Exception as ex:
+    #             print(ex, file=sys.stderr)
+
+    # except Exception as e:
+    #     print(f"{sys.argv[0]}: {str(e)}", file=sys.stderr)
+    #     sys.exit(1)
 #-----------------------------------------------------------------------
 
 if __name__ == '__main__':
