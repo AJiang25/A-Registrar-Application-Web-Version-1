@@ -19,7 +19,7 @@
                             type="text" 
                             id="deptInput" 
                             name="dept" 
-                            value=""
+                            value="{{ request.args.get('dept', '') }}"
                         >
                         <br/>
                     </td>
@@ -31,7 +31,7 @@
                             type="text" 
                             id="numberInput" 
                             name="coursenum" 
-                            value=""
+                            value="{{ request.args.get('coursenum', '') }}"
                         >
                         <br/>
                     </td>
@@ -43,7 +43,7 @@
                             type="text" 
                             id="areaInput" 
                             name="area" 
-                            value=""
+                            value="{{ request.args.get('area', '') }}"
                         >
                         <br/>
                     </td>
@@ -55,7 +55,7 @@
                             type="title" 
                             id="titleInput" 
                             name="title" 
-                            value=""
+                            value="{{ request.args.get('title', '') }}"
                         >
                         <br/>
                     </td>

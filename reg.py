@@ -13,6 +13,12 @@ import database
 app = flask.Flask(__name__, template_folder='.')
 
 #-----------------------------------------------------------------------
+
+#  In the resulting "class overviews" page, the form must show the same 
+#  data that the user entered most recently. The resulting 
+#  "class overviews" page also must show the class data that resulted 
+#  from the submission of that form.
+
 @app.route('/', methods=['GET'])
 @app.route('/getoverviews', methods=['GET'])
 def get_overviews():
