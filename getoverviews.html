@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Registrar's Office Class Search</title>
     </head>
     <body>
@@ -11,7 +13,7 @@
            <table>
             <tbody>
                 <tr>
-                    <td>Dept: </td> 
+                    <td class = "label">Dept: </td> 
                     <td>
                         <input 
                             type="text" 
@@ -23,19 +25,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Number: </td> 
+                    <td class = "label">Number: </td> 
                     <td>
                         <input 
                             type="text" 
                             id="numberInput" 
-                            name="number" 
+                            name="coursenum" 
                             value=""
                         >
                         <br/>
                     </td>
                 </tr>
                 <tr>
-                    <td>Area: </td> 
+                    <td class = "label">Area: </td> 
                     <td>
                         <input 
                             type="text" 
@@ -47,7 +49,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Title: </td> 
+                    <td class = "label">Title: </td> 
                     <td>
                         <input 
                             type="title" 
@@ -68,32 +70,40 @@
            </table>
         </form>
         <hr>
-        <table id = "overviewsTable">
+        <table id="overviewsTable">
             <thead>
                 <tr>
-                    <td>
-                        <strong> ClassId</strong>
-                    </td>
-                    <td>
-                        <strong> Dept</strong>
-                    </td>
-                    <td>
-                        <strong> Num</strong>
-                    </td>
-                    <td>
-                        <strong> Area</strong>
-                    </td>
-                    <td>
-                        <strong> Title</strong>
-                    </td>
+                    <td><strong>ClassId</strong></td>
+                    <td><strong>Dept</strong></td>
+                    <td><strong>Num</strong></td>
+                    <td><strong>Area</strong></td>
+                    <td><strong>Title</strong></td>
                 </tr>
             </thead>
             <tbody>
+                {% for row in result%}
+                    <tr>
+                        <td>
+                            <a 
+                                href = "{{
+                                    url_for('get_details',
+                                    classid=row.classid)
+                                }}"
+                            > 
+                                {{ row.classid }} 
+                            </a>
+                        </td>
+                        <td>{{ row.dept }}</td>
+                        <td>{{ row.coursenum }}</td>
+                        <td>{{ row.area }}</td>
+                        <td>{{ row.title }}</td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
         <br>
         <hr>
-        " Created by Amanda Chan and Arnold Jiang."
+        "Created by Amanda Chan and Arnold Jiang."
         <hr>
     </body>
 </html>

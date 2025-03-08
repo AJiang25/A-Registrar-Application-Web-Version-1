@@ -1,3 +1,12 @@
+#!/usr/bin/env python
+
+#-----------------------------------------------------------------------
+# database.py
+# Authors: Arnold Jiang and Amanda Chan
+#-----------------------------------------------------------------------
+
+#-----------------------------------------------------------------------
+# imports
 import sys
 import sqlite3
 import contextlib
@@ -9,7 +18,7 @@ def get_overviews(query):
             with contextlib.closing(connection.cursor()) as cursor:
                 conditions = []
                 descriptors = []
-                query = """
+                sql_query = """
                     SELECT DISTINCT cl.classid, cr.dept, cr.coursenum, c.area, c.title 
                     FROM courses c 
                     JOIN crosslistings cr ON c.courseid = cr.courseid 
@@ -32,20 +41,22 @@ def get_overviews(query):
                     descriptor = query["title"].lower().replace("%", r"\%").replace("_", r"\_")
                     descriptors.append(f"%{descriptor}%")
                 if conditions:
-                    query += "WHERE " + " AND ".join(conditions)
+                    sql_query += "WHERE " + " AND ".join(conditions)
 
-                query += "ORDER BY cr.dept ASC, cr.coursenum ASC, cl.classid ASC;"
-                cursor.execute(query, descriptors)
+                sql_query += "ORDER BY cr.dept ASC, cr.coursenum ASC, cl.classid ASC;"
+                cursor.execute(sql_query, descriptors)
                 ans = cursor.fetchall()
 
                 result = [
-                {"classid": row[0], 
-                "dept": row[1], 
-                "coursenum": row[2], 
-                "area": row[3], 
-                "title": row[4]}
-                for row in ans
+                    {
+                        "classid": row[0],
+                        "dept": row[1],
+                        "coursenum": row[2],
+                        "area": row[3],
+                        "title": row[4]
+                    } for row in ans
                 ]
+                print(result)
 
                 return [True, result]
 
@@ -54,12 +65,18 @@ def get_overviews(query):
         sys.exit(1)    
 #-----------------------------------------------------------------------
 def get_details(query):
+    DATABASE_URL = 'file:reg.sqlite?mode=ro'
     classid = query["classid"]
+    print(classid)
     if not classid:
         return False
 
     try:
-        with sqlite3.connect(DATABASE_URL, isolation_level = None, uri = True) as connection:
+        with sqlite3.connect(
+            DATABASE_URL,
+            isolation_level = None,
+            uri = True
+        ) as connection:
             with contextlib.closing(connection.cursor()) as cursor:
                 class_query = """
                     SELECT classid, days, starttime, endtime, bldg, roomnum, courseid
@@ -86,23 +103,21 @@ def get_details(query):
                         ORDER BY p.profname ASC
                 """
 
-                cursor.execute(class_query, classid)
-                class_row = cursor.fetchall()
+                cursor.execute(class_query, (classid,))
+                class_row = cursor.fetchone()
                 if not class_row:
                     return False
 
-                courseid = class_row[0][6]
+                courseid = class_row[6]
 
-                cursor.execute(course_query, courseid)
+                cursor.execute(course_query, (courseid,))
                 course_row = cursor.fetchone()
 
-                cursor.execute(dept_query, courseid)
+                cursor.execute(dept_query, (courseid,))
                 dept_row = cursor.fetchall()
 
-                cursor.execute(prof_query, courseid)
+                cursor.execute(prof_query, (courseid,))
                 prof_row = cursor.fetchall()
-
-                connection.close()
 
                 result = {
                 "classid": class_row[0], 
@@ -117,7 +132,8 @@ def get_details(query):
                 "description": course_row[3],
                 "prerequisites": course_row[4],
                 "departments": [{"dept": dept[0], "coursenum": dept[1]} for dept in dept_row],
-                "professors": [prof[0] for prof in prof_row]}    
+                "professors": [prof[0] for prof in prof_row]
+                }    
 
                 return [True, result]
 

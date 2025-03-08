@@ -6,11 +6,10 @@
 #-----------------------------------------------------------------------
 # imports
 import sys
-import sqlite3
 import argparse
-import flask
+import reg
 #-----------------------------------------------------------------------
-app = flask.Flask(__name__, template_folder='.')
+# app = flask.Flask(__name__, template_folder='.')
 
 #-----------------------------------------------------------------------
 # flask.request.args.get function - get all of the fields of the query 
@@ -18,7 +17,7 @@ app = flask.Flask(__name__, template_folder='.')
 # fill in the keys using the flask.request.args.get. Then you feed
 # the dictionary into the database.py. Database.py handles all fo the sql
 # and returns the response. This is all in reg.py for overviews. app
-#route get overviews and get details go into reg.py and the fields would 
+# route get overviews and get details go into reg.py and the fields would 
 # come from the query. flask.request.args.get you would call this 4 times for
 # the arguments. You call this in details too. 
 
@@ -53,7 +52,7 @@ def main():
 
     args = parser.parse_args()
     try:
-        app.run(host='0.0.0.0', port=args.port, debug=True)
+        reg.app.run(host='0.0.0.0', port=args.port, debug=True)
     except Exception as ex:
         print(ex, file=sys.stderr)
         sys.exit(1)
