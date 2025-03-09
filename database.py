@@ -11,8 +11,11 @@ import sys
 import sqlite3
 import contextlib
 #-----------------------------------------------------------------------
+# constants
+DATABASE_URL = 'file:reg.sqlite?mode=ro'
+#-----------------------------------------------------------------------
+
 def reg_overviews(query):
-    DATABASE_URL = 'file:reg.sqlite?mode=ro'
     try:
         with sqlite3.connect(
             DATABASE_URL,
@@ -74,10 +77,12 @@ SELECT DISTINCT cl.classid, cr.dept, cr.coursenum, c.area, c.title
 
     except Exception as e:
         print(f"Error in reg_overviews: {str(e)}", file=sys.stderr)
-        return [False, "A server error occurred. Please contact the system administrator."] 
+        return [
+            False,
+"A server error occurred.Please contact the system administrator."
+        ]
 #-----------------------------------------------------------------------
 def reg_details(query):
-    DATABASE_URL = 'file:reg.sqlite?mode=ro'
 
     try:
         classid = query["classid"]
@@ -86,11 +91,11 @@ def reg_details(query):
                         False,
                         "missing classid"
                     ]
-        
+
         # Check if this logic is fine???
         try:
             classid = int(classid)
-        except:
+        except ValueError:
             return [
                         False,
                         "non-integer classid"
@@ -134,20 +139,18 @@ SELECT DISTINCT c.courseid, c.area, c.title, c.descrip, c.prereqs
                         f"no class with classid {classid} exists"
                     ]
 
-                courseid = class_row[6]
-
-                cursor.execute(course_query, (courseid,))
+                cursor.execute(course_query, (class_row[6],))
                 course_row = cursor.fetchone()
                 if not course_row:
                     return [
                         False,
-                        "no course with classid {classid} exists"
+                        f"no course with classid {class_row[6]} exists"
                     ]
 
-                cursor.execute(dept_query, (courseid,))
+                cursor.execute(dept_query, (class_row[6],))
                 dept_row = cursor.fetchall()
 
-                cursor.execute(prof_query, (courseid,))
+                cursor.execute(prof_query, (class_row[6],))
                 prof_row = cursor.fetchall()
 
                 result = {
@@ -174,6 +177,7 @@ SELECT DISTINCT c.courseid, c.area, c.title, c.descrip, c.prereqs
 
     except Exception as e:
         print(f"Error in reg_details: {str(e)}", file=sys.stderr)
-        return [False, "A server error occurred. Please contact the system administrator."]
-
-    
+        return [
+            False,
+"A server error occurred. Please contact the system administrator."
+        ]

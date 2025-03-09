@@ -24,10 +24,10 @@ def reg_overviews():
         "title": flask.request.args.get("title")
     }
 
-    valid, result = database.reg_overviews(query) 
+    valid, result = database.reg_overviews(query)
     if not valid:
         result = {"error": result}
-    
+
     html_code = flask.render_template(
         'regoverviews.html',
         dept=query["dept"],
@@ -48,11 +48,11 @@ def reg_overviews():
     if query["title"] is not None:
         response.set_cookie("title", query["title"])
     return response
-    
+
 #-----------------------------------------------------------------------
 @app.route('/regdetails', methods=['GET'])
 def reg_details():
-    
+
     query = {"classid": flask.request.args.get("classid")}
     valid, result = database.reg_details(query)
     if not valid:
@@ -63,7 +63,7 @@ def reg_details():
         classid=query["classid"],
         result = result
     )
-    
+
     response = flask.make_response(html_code)
     return response
 
