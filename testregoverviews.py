@@ -91,7 +91,40 @@ def main():
             {'dept':'COS', 'coursenum':'2', 'area':'qr',
             'title':'intro'})
 
-        # Add more tests here.
+        #Coverage Case Testing
+        run_test(server_url, browser_process, '')
+        run_test(server_url, browser_process, '-d COS')
+        run_test(server_url, browser_process, '-n 333')
+        run_test(server_url, browser_process, '-n 240')
+        run_test(server_url, browser_process, '-n 226')
+        run_test(server_url, browser_process, '-n 217')
+        run_test(server_url, browser_process, '-n 445')
+        run_test(server_url, browser_process, '-n b')
+        run_test(server_url, browser_process, '-a Qr')
+        run_test(server_url, browser_process, '-t intro')
+        run_test(server_url, browser_process, '-t science')
+        run_test(server_url, browser_process, '-t C_S')
+        run_test(server_url, browser_process, '-t c%S')
+        run_test(server_url, browser_process, '-d cos -n 3')
+        run_test(server_url, browser_process, '-d COS -a qr -n 2 -t intro')
+        run_test(server_url, browser_process, '-d COS -a qr -n 2 -t apple')
+        run_test(server_url, browser_process, '-t "Independent Study"')
+        run_test(server_url, browser_process, '-t "Independent Study "')
+        run_test(server_url, browser_process, '-t "Independent Study  "')
+        run_test(server_url, browser_process, '-t " Independent Study"')
+        run_test(server_url, browser_process, '-t "  Independent Study"')
+        run_test(server_url, browser_process, '-t=-c')
+
+        #Error Case Testing
+        run_test(server_url, browser_process, 'a qr')
+        run_test(server_url, browser_process, '-A qr')
+        run_test(server_url, browser_process, '-A \br')
+        run_test(server_url, browser_process, '"-a " qr')
+        run_test(server_url, browser_process, '-a qr st')
+        run_test(server_url, browser_process, '-a')
+        run_test(server_url, browser_process, '-a qr -d')
+        run_test(server_url, browser_process, '-a -d cos')
+        run_test(server_url, browser_process, '-x')
 
 if __name__ == '__main__':
     main()
