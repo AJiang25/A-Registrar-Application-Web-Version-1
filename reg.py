@@ -14,14 +14,9 @@ app = flask.Flask(__name__, template_folder='.')
 
 #-----------------------------------------------------------------------
 
-#  In the resulting "class overviews" page, the form must show the same 
-#  data that the user entered most recently. The resulting 
-#  "class overviews" page also must show the class data that resulted 
-#  from the submission of that form.
-
 @app.route('/', methods=['GET'])
-@app.route('/getoverviews', methods=['GET'])
-def get_overviews():
+@app.route('/regoverviews', methods=['GET'])
+def reg_overviews():
     query = {
         "dept": flask.request.args.get("dept"),
         "coursenum": flask.request.args.get("coursenum"),
@@ -29,13 +24,12 @@ def get_overviews():
         "title": flask.request.args.get("title")
     }
 
-    valid, result = database.get_overviews(query) 
+    valid, result = database.reg_overviews(query) 
     if not valid:
-        return flask.render_template('error.html', message = "Failed to retrieve data.")
-    
+        result = {"error": result}
     
     html_code = flask.render_template(
-        'getoverviews.html',
+        'regoverviews.html',
         dept=query["dept"],
         coursenum=query["coursenum"],
         area = query["area"],
@@ -56,21 +50,16 @@ def get_overviews():
     return response
     
 #-----------------------------------------------------------------------
-@app.route('/getdetails', methods=['GET'])
-def get_details():
+@app.route('/regdetails', methods=['GET'])
+def reg_details():
     
     query = {"classid": flask.request.args.get("classid")}
-    valid, result = database.get_details(query)
+    valid, result = database.reg_details(query)
     if not valid:
-        return flask.render_template('error.html', message = "Failed to retrieve data.")
-    
-    dept = flask.request.cookies.get("dept")
-    coursenum = flask.request.cookies.get("coursenum")
-    area = flask.request.cookies.get("area")
-    title = flask.request.cookies.get("title")
+        result = {"error": result}
 
     html_code = flask.render_template(
-        'getdetails.html',
+        'regdetails.html',
         classid=query["classid"],
         result = result
     )
@@ -79,5 +68,13 @@ def get_details():
     return response
 
 #-----------------------------------------------------------------------
+# For testing:
+
+def _test():
+    print(reg_overviews())
+    print()
+    print()
+    print(reg_details())
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    _test()

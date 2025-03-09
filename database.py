@@ -11,39 +11,52 @@ import sys
 import sqlite3
 import contextlib
 #-----------------------------------------------------------------------
-def get_overviews(query):
+def reg_overviews(query):
     DATABASE_URL = 'file:reg.sqlite?mode=ro'
     try:
-        with sqlite3.connect(DATABASE_URL, isolation_level = None, uri = True) as connection:
+        with sqlite3.connect(
+            DATABASE_URL,
+            isolation_level = None,
+            uri = True
+        ) as connection:
             with contextlib.closing(connection.cursor()) as cursor:
                 conditions = []
                 descriptors = []
                 sql_query = """
-                    SELECT DISTINCT cl.classid, cr.dept, cr.coursenum, c.area, c.title 
+SELECT DISTINCT cl.classid, cr.dept, cr.coursenum, c.area, c.title 
                     FROM courses c 
                     JOIN crosslistings cr ON c.courseid = cr.courseid 
                     JOIN classes cl ON c.courseid = cl.courseid
                 """
                 if query.get("dept"):
                     conditions.append("cr.dept LIKE ? ESCAPE '\\'")
-                    descriptor = query["dept"].lower().replace("%", r"\%").replace("_", r"\_")
+                    descriptor = query[
+                        "dept"].lower(
+                            ).replace("%", r"\%").replace("_", r"\_")
                     descriptors.append(f"%{descriptor}%")
                 if query.get("coursenum"):
                     conditions.append("cr.coursenum LIKE ? ESCAPE '\\'")
-                    descriptor = query["coursenum"].lower().replace("%", r"\%").replace("_", r"\_")
+                    descriptor = query[
+                        "coursenum"].lower(
+                            ).replace("%", r"\%").replace("_", r"\_")
                     descriptors.append(f"%{descriptor}%")
                 if query.get("area"):
                     conditions.append("c.area LIKE ? ESCAPE '\\'")
-                    descriptor = query["area"].lower().replace("%", r"\%").replace("_", r"\_")
+                    descriptor = query[
+                        "area"].lower(
+                            ).replace("%", r"\%").replace("_", r"\_")
                     descriptors.append(f"%{descriptor}%")
                 if query.get("title"):
                     conditions.append("c.title LIKE ? ESCAPE '\\'")
-                    descriptor = query["title"].lower().replace("%", r"\%").replace("_", r"\_")
+                    descriptor = query[
+                        "title"].lower(
+                            ).replace("%", r"\%").replace("_", r"\_")
                     descriptors.append(f"%{descriptor}%")
                 if conditions:
                     sql_query += "WHERE " + " AND ".join(conditions)
 
-                sql_query += "ORDER BY cr.dept ASC, cr.coursenum ASC, cl.classid ASC;"
+                sql_query += "ORDER BY cr.dept ASC,"
+                sql_query += "cr.coursenum ASC, cl.classid ASC;"
                 cursor.execute(sql_query, descriptors)
                 ans = cursor.fetchall()
 
@@ -56,22 +69,32 @@ def get_overviews(query):
                         "title": row[4]
                     } for row in ans
                 ]
-                print(result)
 
                 return [True, result]
 
     except Exception as e:
-        print(f"{sys.argv[0]}: {str(e)}", file=sys.stderr)
-        sys.exit(1)    
+        print(f"Error in reg_overviews: {str(e)}", file=sys.stderr)
+        return [False, "A server error occurred. Please contact the system administrator."] 
 #-----------------------------------------------------------------------
-def get_details(query):
+def reg_details(query):
     DATABASE_URL = 'file:reg.sqlite?mode=ro'
-    classid = query["classid"]
-    print(classid)
-    if not classid:
-        return False
 
     try:
+        classid = query["classid"]
+        if not classid:
+            return [
+                        False,
+                        "missing classid"
+                    ]
+        
+        # Check if this logic is fine???
+        try:
+            classid = int(classid)
+        except:
+            return [
+                        False,
+                        "non-integer classid"
+            ]
         with sqlite3.connect(
             DATABASE_URL,
             isolation_level = None,
@@ -79,12 +102,12 @@ def get_details(query):
         ) as connection:
             with contextlib.closing(connection.cursor()) as cursor:
                 class_query = """
-                    SELECT classid, days, starttime, endtime, bldg, roomnum, courseid
+SELECT classid, days, starttime, endtime, bldg, roomnum, courseid
                     FROM classes
                     WHERE classid = ?
                 """
                 course_query = """
-                    SELECT DISTINCT c.courseid, c.area, c.title, c.descrip, c.prereqs
+SELECT DISTINCT c.courseid, c.area, c.title, c.descrip, c.prereqs
                         FROM courses c
                         WHERE c.courseid = ?
                 """
@@ -106,12 +129,20 @@ def get_details(query):
                 cursor.execute(class_query, (classid,))
                 class_row = cursor.fetchone()
                 if not class_row:
-                    return False
+                    return [
+                        False,
+                        f"no class with classid {classid} exists"
+                    ]
 
                 courseid = class_row[6]
 
                 cursor.execute(course_query, (courseid,))
                 course_row = cursor.fetchone()
+                if not course_row:
+                    return [
+                        False,
+                        "no course with classid {classid} exists"
+                    ]
 
                 cursor.execute(dept_query, (courseid,))
                 dept_row = cursor.fetchall()
@@ -131,20 +162,18 @@ def get_details(query):
                 "title": course_row[2],
                 "description": course_row[3],
                 "prerequisites": course_row[4],
-                "departments": [{"dept": dept[0], "coursenum": dept[1]} for dept in dept_row],
+                "departments": [
+                    {
+                        "dept": dept[0],
+                        "coursenum": dept[1]
+                    } for dept in dept_row
+                ],
                 "professors": [prof[0] for prof in prof_row]
-                }    
-
+                }
                 return [True, result]
 
-
-            if not successful:
-                print(f"{sys.argv[0]}: no class with classid " +
-                        str(args.classid) + " exists", file=sys.stderr)
-                sys.exit(1)
-
     except Exception as e:
-        print(f"{sys.argv[0]}: {str(e)}", file=sys.stderr)
-        sys.exit(1)
+        print(f"Error in reg_details: {str(e)}", file=sys.stderr)
+        return [False, "A server error occurred. Please contact the system administrator."]
 
     
