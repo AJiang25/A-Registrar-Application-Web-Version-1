@@ -121,7 +121,7 @@ def main():
         run_test(server_url, browser_process, {'title': '  Independent Study'})
         run_test(server_url, browser_process, {'title': '-c'})
 
-        #Error Case Testing
+        # Error Case Testing
         # run_test(server_url, browser_process, 'a qr')
         # run_test(server_url, browser_process, '-A qr')
         # run_test(server_url, browser_process, '-A \br')

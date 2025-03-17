@@ -83,7 +83,6 @@ def reg_details():
 def _test():
     print(index())
     print()
-    print()
     print(reg_details())
 
 if __name__ == '__main__':
