@@ -175,6 +175,7 @@ SELECT DISTINCT c.courseid, c.area, c.title, c.descrip, c.prereqs
                 }
                 return [True, result]
 
+    # THIS ERROR HANDLING IS WRONG?
     except Exception as e:
         print(f"Error in reg_details: {str(e)}", file=sys.stderr)
         return [

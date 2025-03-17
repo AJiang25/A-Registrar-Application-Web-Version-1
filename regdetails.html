@@ -58,9 +58,9 @@
                 <thead>
                     <tr>
                         <td class = "label">
-                            <strong> ClassId</strong>
+                            <strong> Course Id</strong>
                         </td>
-                        <td>{{ result.classid }}</td>
+                        <td>{{ result.courseid }}</td>
                     </tr>
                     {% for dept in result.departments %}
                     <tr>
@@ -113,14 +113,9 @@
             <br>
             <hr>
             Click here to do
-            <a href = "{{
-                url_for('reg_overviews',
-                        dept=request.cookies.get('dept'),
-                        coursenum=request.cookies.get('coursenum'),
-                        area=request.cookies.get('area'),
-                        title=request.cookies.get('title')
-                )
-                }}"> another class search 
+            
+            <a href = "/?dept={{dept}}&coursenum={{coursenum}}&area={{area}}&title={{title}}">
+                another class search 
             </a>
         {% endif %}
         <hr>

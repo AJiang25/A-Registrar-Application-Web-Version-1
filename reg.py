@@ -15,8 +15,8 @@ app = flask.Flask(__name__, template_folder='.')
 #-----------------------------------------------------------------------
 
 @app.route('/', methods=['GET'])
-@app.route('/regoverviews', methods=['GET'])
-def reg_overviews():
+@app.route('/index', methods=['GET'])
+def index():
     query = {
         "dept": flask.request.args.get("dept"),
         "coursenum": flask.request.args.get("coursenum"),
@@ -57,21 +57,31 @@ def reg_details():
     valid, result = database.reg_details(query)
     if not valid:
         result = {"error": result}
+        
+    dept = flask.request.cookies.get("dept","")
+    coursenum = flask.request.cookies.get("coursenum","")
+    area = flask.request.cookies.get("area","")
+    title = flask.request.cookies.get("title","")
 
     html_code = flask.render_template(
         'regdetails.html',
         classid=query["classid"],
-        result = result
+        result = result,
+        dept = dept,
+        coursenum = coursenum,
+        area = area,
+        title = title
     )
 
     response = flask.make_response(html_code)
+        
     return response
 
 #-----------------------------------------------------------------------
 # For testing:
 
 def _test():
-    print(reg_overviews())
+    print(index())
     print()
     print()
     print(reg_details())

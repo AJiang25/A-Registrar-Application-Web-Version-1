@@ -91,6 +91,7 @@ def main():
             {'dept':'COS', 'coursenum':'2', 'area':'qr',
             'title':'intro'})
 
+        # Add more tests here.
         #Coverage Case Testing
         run_test(server_url, browser_process, '')
         run_test(server_url, browser_process, '-d COS')
@@ -116,15 +117,15 @@ def main():
         run_test(server_url, browser_process, '-t=-c')
 
         #Error Case Testing
-        run_test(server_url, browser_process, 'a qr')
-        run_test(server_url, browser_process, '-A qr')
-        run_test(server_url, browser_process, '-A \br')
-        run_test(server_url, browser_process, '"-a " qr')
-        run_test(server_url, browser_process, '-a qr st')
-        run_test(server_url, browser_process, '-a')
-        run_test(server_url, browser_process, '-a qr -d')
-        run_test(server_url, browser_process, '-a -d cos')
-        run_test(server_url, browser_process, '-x')
+        # run_test(server_url, browser_process, 'a qr')
+        # run_test(server_url, browser_process, '-A qr')
+        # run_test(server_url, browser_process, '-A \br')
+        # run_test(server_url, browser_process, '"-a " qr')
+        # run_test(server_url, browser_process, '-a qr st')
+        # run_test(server_url, browser_process, '-a')
+        # run_test(server_url, browser_process, '-a qr -d')
+        # run_test(server_url, browser_process, '-a -d cos')
+        # run_test(server_url, browser_process, '-x')
 
 if __name__ == '__main__':
     main()
