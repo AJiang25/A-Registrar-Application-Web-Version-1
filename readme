@@ -5,7 +5,14 @@ Arnold Jiang (aj9183)
 ----------------------------------------------------------------------------
 Partner 1:
 ----------------------------------------------------------------------------
-Amanda:  
+Amanda: I worked on the basic framework for the html files. I also wrote 
+all of the database.py logic by incorporating the sql logic from assignment
+1. On the database.py, I also reformatted the return output so that it can be
+processed by reg.py. I also wrote all of the Flask logic in reg.py, 
+including using the flask.request.args.get methods, calling the database 
+functions, calling the flask.render_template methods. I also implemented 
+all of the cookies logic in reg.py. Finally, I wrote the runserver.py main
+method. 
 
 ----------------------------------------------------------------------------
 Partner 2:
@@ -23,15 +30,14 @@ the server not properly running.
 
 ----------------------------------------------------------------------------
 Help Received:
-
-Xinran OH (3/17)
 ----------------------------------------------------------------------------
 Help we received from other people: 
-
-
+Ambri OH (3/7)
+Jocelyn OH (3/7)
+Xinran OH (3/17)
 
 ----------------------------------------------------------------------------
-Time Spent:
+Time Spent: 
 ----------------------------------------------------------------------------
 Time spent doing the assignment: 12 hours
 
