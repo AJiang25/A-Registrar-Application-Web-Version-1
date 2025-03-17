@@ -107,19 +107,39 @@ def main():
         run_test(server_url, browser_process, {'title': 'science'})
         run_test(server_url, browser_process, {'title': 'C_S'})
         run_test(server_url, browser_process, {'title': 'c%S'})
-        run_test(server_url, browser_process, {'dept': 'cos', 'coursenum': '3'})
         run_test(server_url, browser_process, {
-            'dept': 'COS', 'area': 'qr', 'coursenum': '2', 'title': 'intro'
+            'dept': 'cos', 'coursenum': '3'
         })
         run_test(server_url, browser_process, {
-            'dept': 'COS', 'area': 'qr', 'coursenum': '2', 'title': 'apple'
+            'dept': 'COS',
+            'area': 'qr',
+            'coursenum': '2',
+            'title': 'intro'
         })
-        run_test(server_url, browser_process, {'title': 'Independent Study'})
-        run_test(server_url, browser_process, {'title': 'Independent Study '})
-        run_test(server_url, browser_process, {'title': 'Independent Study  '})
-        run_test(server_url, browser_process, {'title': ' Independent Study'})
-        run_test(server_url, browser_process, {'title': '  Independent Study'})
-        run_test(server_url, browser_process, {'title': '-c'})
+        run_test(server_url, browser_process, {
+            'dept':'COS',
+            'area': 'qr',
+            'coursenum': '2',
+            'title': 'apple'
+        })
+        run_test(server_url, browser_process, {
+            'title': 'Independent Study'
+        })
+        run_test(server_url, browser_process, {
+            'title': 'Independent Study '
+        })
+        run_test(server_url, browser_process, {
+            'title': 'Independent Study  '
+        })
+        run_test(server_url, browser_process, {
+            'title': ' Independent Study'
+        })
+        run_test(server_url, browser_process, {
+            'title': '  Independent Study'
+        })
+        run_test(server_url, browser_process, {
+            'title': '-c'
+        })
 
         # Error Case Testing
         # run_test(server_url, browser_process, 'a qr')
