@@ -12,10 +12,21 @@ Partner 2:
 ----------------------------------------------------------------------------
 Arnold: 
 
+I helped Amanda with creating the regdetails and regoverviews html files. 
+Specifically, I wrote the html code for adding inline CSS styling using HTML
+attributes. I integrated the Flask and Django code to work concurrently with
+the SQL querying. I added the testing modules to the reg.py. I worked on 
+the error handling portion of the project. I also created the testing 
+modules for the reg.py file. I also resolved the issues with the cookie 
+and worked on the "another class search" feature. I resolved an issue with
+the server not properly running.
+
 ----------------------------------------------------------------------------
 Help Received:
 ----------------------------------------------------------------------------
 Help we received from other people: 
+
+
 
 ----------------------------------------------------------------------------
 Time Spent:
