@@ -92,7 +92,7 @@ def main():
             'title':'intro'})
 
         # Add more tests here.
-        #Coverage Case Testing
+        # Coverage Case Testing
         run_test(server_url, browser_process, {})
         run_test(server_url, browser_process, {'dept':'COS'})
         run_test(server_url, browser_process, {'coursenum':'333'})
@@ -100,6 +100,18 @@ def main():
         run_test(server_url, browser_process, {'coursenum':'226'})
         run_test(server_url, browser_process, {'coursenum':'217'})
         run_test(server_url, browser_process, {'coursenum':'445'})
+        run_test(server_url, browser_process, {
+            'coursenum':'333',
+            'area':'STX'
+        })
+        run_test(server_url, browser_process, {
+            'dept':'CHM',
+            'coursenum':'408'
+        })
+        run_test(server_url, browser_process, {
+            'area':'EM',
+            'title':'Ethics',
+        })
         run_test(server_url, browser_process, {'coursenum':'b'})
         run_test(server_url, browser_process, {'area':'Qr'})
         run_test(server_url, browser_process, {'area': 'Qr'})
@@ -140,17 +152,6 @@ def main():
         run_test(server_url, browser_process, {
             'title': '-c'
         })
-
-        # Error Case Testing
-        # run_test(server_url, browser_process, 'a qr')
-        # run_test(server_url, browser_process, '-A qr')
-        # run_test(server_url, browser_process, '-A \br')
-        # run_test(server_url, browser_process, '"-a " qr')
-        # run_test(server_url, browser_process, '-a qr st')
-        # run_test(server_url, browser_process, '-a')
-        # run_test(server_url, browser_process, '-a qr -d')
-        # run_test(server_url, browser_process, '-a -d cos')
-        # run_test(server_url, browser_process, '-x')
 
 if __name__ == '__main__':
     main()

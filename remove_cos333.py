@@ -10,8 +10,7 @@ def remove_cos333():
             isolation_level=None,
             uri=True) as connection:
             with contextlib.closing(connection.cursor()) as cursor:
-                sql_query = "SELECT courseid FROM crosslistings"
-                sql_query += "WHERE dept = 'COS' AND coursenum = '333'"
+                sql_query = "SELECT courseid FROM crosslistings WHERE dept = 'COS' AND coursenum = '333'"
                 cursor.execute(sql_query)
                 courseid_row = cursor.fetchone()
                 courseid = courseid_row[0]

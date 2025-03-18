@@ -92,7 +92,6 @@ def reg_details(query):
                         "missing classid"
                     ]
 
-        # Check if this logic is fine???
         try:
             classid = int(classid)
         except ValueError:
@@ -175,7 +174,6 @@ SELECT DISTINCT c.courseid, c.area, c.title, c.descrip, c.prereqs
                 }
                 return [True, result]
 
-    # THIS ERROR HANDLING IS WRONG?
     except Exception as e:
         print(f"Error in reg_details: {str(e)}", file=sys.stderr)
         return [
@@ -185,11 +183,21 @@ SELECT DISTINCT c.courseid, c.area, c.title, c.descrip, c.prereqs
 
 #-----------------------------------------------------------------------
 # For testing:
+overviews_query = {
+        "dept": 'COS',
+        "coursenum": '333',
+        "area": '',
+        "title": 'Advanced'
+    }
+
+details_query = {
+        "classid":'8134'
+    }
 
 def _test():
-    print(reg_overviews())
+    print(reg_overviews(overviews_query))
     print()
-    print(reg_details())
+    print(reg_details(details_query))
 
 if __name__ == '__main__':
     _test()

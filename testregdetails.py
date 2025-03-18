@@ -88,14 +88,11 @@ def main():
         run_test(server_url, browser_process, '10263')
         run_test(server_url, browser_process, '10264')
         run_test(server_url, browser_process, '9158')
-
-        # Error Case Testing
-        # run_test(server_url, browser_process, '-h')
-        # run_test(server_url, browser_process, '')
-        # run_test(server_url, browser_process, '8321 9032')
-        # run_test(server_url, browser_process, 'abc123')
-        # run_test(server_url, browser_process, '9034')
-        # run_test(server_url, browser_process, '1000000000')
+        run_test(server_url, browser_process, '9897')
+        run_test(server_url, browser_process, '8390')
+        run_test(server_url, browser_process, '10260')
+        run_test(server_url, browser_process, '10250')
+        run_test(server_url, browser_process, '9980')
 
 if __name__ == '__main__':
     main()
