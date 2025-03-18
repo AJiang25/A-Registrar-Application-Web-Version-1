@@ -57,7 +57,7 @@ def reg_details():
     valid, result = database.reg_details(query)
     if not valid:
         result = {"error": result}
-        
+
     dept = flask.request.cookies.get("dept","")
     coursenum = flask.request.cookies.get("coursenum","")
     area = flask.request.cookies.get("area","")
@@ -74,7 +74,7 @@ def reg_details():
     )
 
     response = flask.make_response(html_code)
-        
+
     return response
 
 #-----------------------------------------------------------------------
@@ -82,7 +82,6 @@ def reg_details():
 
 def _test():
     print(index())
-    print()
     print()
     print(reg_details())
 

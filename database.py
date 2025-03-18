@@ -79,7 +79,7 @@ SELECT DISTINCT cl.classid, cr.dept, cr.coursenum, c.area, c.title
         print(f"Error in reg_overviews: {str(e)}", file=sys.stderr)
         return [
             False,
-"A server error occurred.Please contact the system administrator."
+"A server error occurred. Please contact the system administrator."
         ]
 #-----------------------------------------------------------------------
 def reg_details(query):
@@ -182,3 +182,14 @@ SELECT DISTINCT c.courseid, c.area, c.title, c.descrip, c.prereqs
             False,
 "A server error occurred. Please contact the system administrator."
         ]
+
+#-----------------------------------------------------------------------
+# For testing:
+
+def _test():
+    print(reg_overviews())
+    print()
+    print(reg_details())
+
+if __name__ == '__main__':
+    _test()
