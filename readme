@@ -13,8 +13,8 @@ including using the flask.request.args.get methods, calling the database
 functions, calling the flask.render_template methods. I also implemented 
 all of the cookies logic in reg.py. Finally, I wrote the runserver.py main
 method. 
-
-----------------------------------------------------------------------------
+ 
+---------------------------------------------------------------------------
 Partner 2:
 ----------------------------------------------------------------------------
 Arnold: 
@@ -32,6 +32,7 @@ the server not properly running.
 Help Received:
 ----------------------------------------------------------------------------
 Help we received from other people: 
+
 Ambri OH (3/7)
 Jocelyn OH (3/7)
 Xinran OH (3/17)
